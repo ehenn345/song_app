@@ -17,6 +17,7 @@ class Api::SongsController < ApplicationController
       album: params[:album],
       year: params[:year]
     )
+    @song.save
     render 'show.json.jb'
   end
 
@@ -26,7 +27,14 @@ class Api::SongsController < ApplicationController
     @song.artist = params[:artist] || @song.artist,
     @song.album = params[:album] || @song.album,
     @song.year = params[:year] || @song.year
+    @song.save
     render 'show.json.jb'
+  end
+
+  def destroy
+    @song = Song.find_by(id: params[:id])
+    @song.destroy
+    render json: {message: "Song destroyed"}
   end
 
 end
